@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace SegundoParcial
+namespace SegundoParcial1
 {
     static class Program
     {
@@ -15,7 +15,7 @@ namespace SegundoParcial
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new VentanaPrincipal());
+            Application.Run(new Form1());
         }
     }
 }
