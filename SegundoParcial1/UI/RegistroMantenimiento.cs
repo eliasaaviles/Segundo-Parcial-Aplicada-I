@@ -153,7 +153,9 @@ namespace SegundoParcial1.UI
         private void BuscarBoton_Click(object sender, EventArgs e)
         {
            int id = Convert.ToInt32(IDnumericUpDown1.Value);
-            MantenimientoDetalle mantenimiento = BLL.MantenimientoDetalleBLL.Buscar(id);
+            
+            Mantenimiento mantenimiento = BLL.MantenimientoDetalleBLL.Buscar(id);
+            
 
             if (mantenimiento != null)
             {
@@ -215,7 +217,7 @@ namespace SegundoParcial1.UI
 
                
                 MantenimientoData.Columns["Id"].Visible = false;
-               // MantenimientoData.Columns["MantenimientoId"].Visible = false;
+               MantenimientoData.Columns["MantenimientoId"].Visible = false;
                 MantenimientoData.Columns["TallerId"].Visible = false;
                 MantenimientoData.Columns["ArticulosId"].Visible = false;
                 MantenimientoData.Columns["articulo"].Visible = false;
@@ -328,7 +330,12 @@ namespace SegundoParcial1.UI
                     MessageBox.Show("No se pudo guardar!!", "Fallo",
                         MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+
+        private void ImporteBox_TextChanged(object sender, EventArgs e)
+        {
+
         }
+    }
     }
 
 

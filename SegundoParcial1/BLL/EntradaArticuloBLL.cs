@@ -9,7 +9,7 @@ using System.Text;
 
 namespace SegundoParcial1.BLL
 {
-   public class EntradaArticuloBLL
+    public class EntradaArticuloBLL
     {
         public static bool Guardar(EntradaArticulos entrada)
         {
@@ -20,12 +20,17 @@ namespace SegundoParcial1.BLL
                 if (contexto.entradas.Add(entrada) != null)
                 {
                     //todo: afectar el inventario
-                    Articulo articulo = BLL.ArticuloBLL.Buscar(entrada.ArticuloID);
-                    articulo.Inventario += entrada.Cantidad;
-                    BLL.ArticuloBLL.Modificar(articulo);
+                    // Articulo articulo = BLL.ArticuloBLL.Buscar(entrada.ArticuloID);
+                    //articulo.Inventario += entrada.Cantidad;
+                    //BLL.ArticuloBLL.Modificar(articulo);
+
+                    //Buscar
+                    var Articulo = contexto.articulos.Find(entrada.ArticuloID);
+                    //Incrementar la cantidad
+                    Articulo.Inventario += entrada.Cantidad;
 
                     contexto.SaveChanges();
-                    
+
                     paso = true;
                 }
 
@@ -44,21 +49,23 @@ namespace SegundoParcial1.BLL
             bool paso = false;
 
             Contexto contexto = new Contexto();
-            //buscar entrada guardada
-            EntradaArticulos EntradaAnterior = BLL.EntradaArticuloBLL.Buscar(entrada.EntradaID);
-
-            //identificar la diferencia ya sea restada o sumada
-            int diferencia;
-
-            diferencia = entrada.Cantidad - EntradaAnterior.Cantidad; 
-
-            //aplicar diferencia al inventario
-            Articulo articulo = BLL.ArticuloBLL.Buscar(entrada.ArticuloID);
-            articulo.Inventario += diferencia;
-            BLL.ArticuloBLL.Modificar(articulo);
+           
 
             try
             {
+                //buscar entrada guardada
+                EntradaArticulos EntradaAnterior = BLL.EntradaArticuloBLL.Buscar(entrada.EntradaID);
+
+                //identificar la diferencia ya sea restada o sumada
+                int diferencia;
+                diferencia = entrada.Cantidad - EntradaAnterior.Cantidad;
+
+                //Buscar
+                var Articulo = contexto.articulos.Find(entrada.ArticuloID);
+
+                //aplicar diferencia al inventario 
+                Articulo.Inventario += diferencia;
+
                 contexto.Entry(entrada).State = EntityState.Modified;
 
                 if (contexto.SaveChanges() > 0)
@@ -96,10 +103,11 @@ namespace SegundoParcial1.BLL
             {
 
                 EntradaArticulos entrada = contexto.entradas.Find(id);
-               
-                Articulo articulo = BLL.ArticuloBLL.Buscar(entrada.ArticuloID);
-                articulo.Inventario -= entrada.Cantidad;
-                BLL.ArticuloBLL.Modificar(articulo);
+
+                //Buscar
+                var Articulo = contexto.articulos.Find(entrada.ArticuloID);
+                //decrementar la cantidad
+                Articulo.Inventario -= entrada.Cantidad;
 
                 contexto.entradas.Remove(entrada);
                 if (contexto.SaveChanges() > 0)

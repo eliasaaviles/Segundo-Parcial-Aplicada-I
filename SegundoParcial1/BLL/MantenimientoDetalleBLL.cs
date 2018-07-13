@@ -107,15 +107,15 @@ namespace SegundoParcial1.BLL
         }
 
 
-        public static MantenimientoDetalle Buscar(int id)
+        public static Mantenimiento Buscar(int id)
         {
 
-            MantenimientoDetalle mantenimiento = new MantenimientoDetalle();
+            Mantenimiento mantenimiento = new Mantenimiento();
             Contexto contexto = new Contexto();
 
             try
             {
-                mantenimiento = contexto.mantenimientos.Find(id);
+                mantenimiento = contexto.mantenimiento.Find(id);
                 contexto.Dispose();
 
             }

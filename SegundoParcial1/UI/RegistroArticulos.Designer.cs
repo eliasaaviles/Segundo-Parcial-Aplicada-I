@@ -34,10 +34,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.DescripcionBox = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.CostoBox = new System.Windows.Forms.TextBox();
-            this.GananciaBox = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
-            this.PrecioBox = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.InventarioBox = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
@@ -46,8 +43,14 @@
             this.GuardarBoton = new System.Windows.Forms.Button();
             this.EliminarBoton = new System.Windows.Forms.Button();
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
+            this.CostoNum = new System.Windows.Forms.NumericUpDown();
+            this.PrecioNum = new System.Windows.Forms.NumericUpDown();
+            this.GananciaNum = new System.Windows.Forms.NumericUpDown();
             ((System.ComponentModel.ISupportInitialize)(this.ArticuloIDNum)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.CostoNum)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PrecioNum)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.GananciaNum)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -92,21 +95,6 @@
             this.label3.Text = "Costo:";
             this.label3.Click += new System.EventHandler(this.label3_Click);
             // 
-            // CostoBox
-            // 
-            this.CostoBox.Location = new System.Drawing.Point(52, 90);
-            this.CostoBox.Name = "CostoBox";
-            this.CostoBox.Size = new System.Drawing.Size(65, 20);
-            this.CostoBox.TabIndex = 5;
-            this.CostoBox.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
-            // 
-            // GananciaBox
-            // 
-            this.GananciaBox.Location = new System.Drawing.Point(234, 90);
-            this.GananciaBox.Name = "GananciaBox";
-            this.GananciaBox.Size = new System.Drawing.Size(69, 20);
-            this.GananciaBox.TabIndex = 7;
-            // 
             // label4
             // 
             this.label4.AutoSize = true;
@@ -115,13 +103,6 @@
             this.label4.Size = new System.Drawing.Size(104, 13);
             this.label4.TabIndex = 6;
             this.label4.Text = "Porciento Ganancia:";
-            // 
-            // PrecioBox
-            // 
-            this.PrecioBox.Location = new System.Drawing.Point(52, 116);
-            this.PrecioBox.Name = "PrecioBox";
-            this.PrecioBox.Size = new System.Drawing.Size(65, 20);
-            this.PrecioBox.TabIndex = 9;
             // 
             // label5
             // 
@@ -193,22 +174,61 @@
             // 
             this.errorProvider1.ContainerControl = this;
             // 
+            // CostoNum
+            // 
+            this.CostoNum.Location = new System.Drawing.Point(51, 88);
+            this.CostoNum.Maximum = new decimal(new int[] {
+            999999,
+            0,
+            0,
+            0});
+            this.CostoNum.Name = "CostoNum";
+            this.CostoNum.Size = new System.Drawing.Size(67, 20);
+            this.CostoNum.TabIndex = 16;
+            this.CostoNum.ValueChanged += new System.EventHandler(this.CostoNum_ValueChanged);
+            // 
+            // PrecioNum
+            // 
+            this.PrecioNum.Location = new System.Drawing.Point(51, 117);
+            this.PrecioNum.Maximum = new decimal(new int[] {
+            999999,
+            0,
+            0,
+            0});
+            this.PrecioNum.Name = "PrecioNum";
+            this.PrecioNum.Size = new System.Drawing.Size(67, 20);
+            this.PrecioNum.TabIndex = 17;
+            this.PrecioNum.ValueChanged += new System.EventHandler(this.PrecioNum_ValueChanged);
+            // 
+            // GananciaNum
+            // 
+            this.GananciaNum.Location = new System.Drawing.Point(236, 90);
+            this.GananciaNum.Maximum = new decimal(new int[] {
+            99999,
+            0,
+            0,
+            0});
+            this.GananciaNum.Name = "GananciaNum";
+            this.GananciaNum.Size = new System.Drawing.Size(67, 20);
+            this.GananciaNum.TabIndex = 18;
+            this.GananciaNum.ValueChanged += new System.EventHandler(this.GananciaNum_ValueChanged);
+            // 
             // RegistroArticulos
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(315, 212);
+            this.Controls.Add(this.GananciaNum);
+            this.Controls.Add(this.PrecioNum);
+            this.Controls.Add(this.CostoNum);
             this.Controls.Add(this.EliminarBoton);
             this.Controls.Add(this.GuardarBoton);
             this.Controls.Add(this.NuevoBoton);
             this.Controls.Add(this.BuscarBoton);
             this.Controls.Add(this.InventarioBox);
             this.Controls.Add(this.label6);
-            this.Controls.Add(this.PrecioBox);
             this.Controls.Add(this.label5);
-            this.Controls.Add(this.GananciaBox);
             this.Controls.Add(this.label4);
-            this.Controls.Add(this.CostoBox);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.DescripcionBox);
             this.Controls.Add(this.label2);
@@ -219,6 +239,9 @@
             this.Load += new System.EventHandler(this.RegistroArticulos_Load);
             ((System.ComponentModel.ISupportInitialize)(this.ArticuloIDNum)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.CostoNum)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PrecioNum)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.GananciaNum)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -231,10 +254,7 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox DescripcionBox;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox CostoBox;
-        private System.Windows.Forms.TextBox GananciaBox;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.TextBox PrecioBox;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TextBox InventarioBox;
         private System.Windows.Forms.Label label6;
@@ -243,5 +263,8 @@
         private System.Windows.Forms.Button GuardarBoton;
         private System.Windows.Forms.Button EliminarBoton;
         private System.Windows.Forms.ErrorProvider errorProvider1;
+        private System.Windows.Forms.NumericUpDown GananciaNum;
+        private System.Windows.Forms.NumericUpDown PrecioNum;
+        private System.Windows.Forms.NumericUpDown CostoNum;
     }
 }

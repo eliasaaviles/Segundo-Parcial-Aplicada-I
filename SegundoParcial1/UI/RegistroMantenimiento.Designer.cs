@@ -217,6 +217,7 @@
             this.ImporteBox.Name = "ImporteBox";
             this.ImporteBox.Size = new System.Drawing.Size(87, 20);
             this.ImporteBox.TabIndex = 18;
+            this.ImporteBox.TextChanged += new System.EventHandler(this.ImporteBox_TextChanged);
             // 
             // MantenimientoData
             // 

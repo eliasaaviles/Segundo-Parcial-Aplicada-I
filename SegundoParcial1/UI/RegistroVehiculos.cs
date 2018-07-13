@@ -42,7 +42,7 @@ namespace SegundoParcial1.UI
 
             bool paso = false;
 
-            if (validar == 1 && VehiculoIDNum.Value == 0)
+            if (validar == 0 && VehiculoIDNum.Value == 0)
             {
                 errorProvider1.SetError(DescripcionBox, "Ingrese un ID");
                 paso = true;
@@ -63,7 +63,7 @@ namespace SegundoParcial1.UI
         private void GuardarBoton_Click(object sender, EventArgs e)
         {
             bool paso = false;
-            if (Validar(2))
+            if (Validar(1))
             {
 
                 MessageBox.Show("Llenar todos los campos marcados");

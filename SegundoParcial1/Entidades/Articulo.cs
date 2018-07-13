@@ -12,9 +12,9 @@ namespace SegundoParcial1.Entidades
 
         public int ArticuloID { get; set; }
         public string Descripcion { get; set; }
-        public float Costo { get; set; }
-        public float Ganancia { get; set; }
-        public float Precip { get; set; }
+        public decimal Costo { get; set; }
+        public decimal Ganancia { get; set; }
+        public decimal Precip { get; set; }
         public int Inventario { get; set; }
 
         public Articulo()

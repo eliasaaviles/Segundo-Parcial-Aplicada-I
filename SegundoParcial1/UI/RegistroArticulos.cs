@@ -16,15 +16,16 @@ namespace SegundoParcial1.UI
         public RegistroArticulos()
         {
             InitializeComponent();
+
         }
         private Articulo Vaciar()
         {
             Articulo vehiculo = new Articulo();
            ArticuloIDNum.Value = 0;
             DescripcionBox.Clear();
-            CostoBox.Clear();
-            PrecioBox.Clear();
-            GananciaBox.Clear();
+            CostoNum.Value = 0;
+            PrecioNum.Value = 0;
+            GananciaNum.Value = 0;
             InventarioBox.Clear();
 
 
@@ -39,9 +40,9 @@ namespace SegundoParcial1.UI
 
             articulo.ArticuloID = Convert.ToInt32(ArticuloIDNum.Value);
             articulo.Descripcion = DescripcionBox.Text;
-            articulo.Costo = Convert.ToInt32(CostoBox.Text);
-            articulo.Ganancia = Convert.ToInt32(GananciaBox.Text);
-            articulo.Precip = Convert.ToInt32(PrecioBox.Text);
+            articulo.Costo = Convert.ToInt32(CostoNum.Value);
+            articulo.Ganancia = Convert.ToInt32(GananciaNum.Value);
+            articulo.Precip = Convert.ToInt32(PrecioNum.Value);
             articulo.Inventario = 0;
             return articulo;
         }
@@ -66,8 +67,8 @@ namespace SegundoParcial1.UI
 
             private void textBox1_TextChanged(object sender, EventArgs e)
             {
-
-            }
+           
+        }
 
             private void label3_Click(object sender, EventArgs e)
             {
@@ -91,9 +92,9 @@ namespace SegundoParcial1.UI
             {
 
                 DescripcionBox.Text = articulo.Descripcion;
-                CostoBox.Text = articulo.Costo.ToString();
-                GananciaBox.Text = articulo.Ganancia.ToString();
-                PrecioBox.Text = articulo.Precip.ToString();
+                CostoNum.Value = articulo.Costo;
+                GananciaNum.Value = articulo.Ganancia;
+                PrecioNum.Value = articulo.Precip;
                 InventarioBox.Text = articulo.Inventario.ToString();
 
 
@@ -150,6 +151,65 @@ namespace SegundoParcial1.UI
                 MessageBox.Show("Eliminado", "Exito", MessageBoxButtons.OK, MessageBoxIcon.Information);
             else
                 MessageBox.Show("No se pudo eliminar", "Fallo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+
+        private void CostoNum_ValueChanged(object sender, EventArgs e)
+        {
+            decimal costo = Convert.ToInt32(CostoNum.Value);
+            decimal precio = Convert.ToInt32(PrecioNum.Value);
+            decimal ganancia = Convert.ToDecimal(GananciaNum.Value);
+
+            if (CostoNum.Value < PrecioNum.Value && GananciaNum.Value == 0)
+            {
+                GananciaNum.Value = BLL.ArticuloBLL.CalcularGanancia(costo, precio);
+            }
+            else
+
+                if (CostoNum.Value > 0 && GananciaNum.Value > 0 && PrecioNum.Value == 0)
+            {
+
+                PrecioNum.Value = BLL.ArticuloBLL.CalcularPrecio(costo, ganancia);
+            }
+        }
+
+        private void PrecioNum_ValueChanged(object sender, EventArgs e)
+        {
+            decimal costo = Convert.ToDecimal(CostoNum.Value);
+            decimal precio = Convert.ToDecimal(PrecioNum.Value);
+            decimal ganancia = Convert.ToDecimal(GananciaNum.Value);
+
+            if (PrecioNum.Value > CostoNum.Value && GananciaNum.Value == 0)
+            {
+                GananciaNum.Value = BLL.ArticuloBLL.CalcularGanancia(costo, precio);
+
+            }
+            else
+            if (PrecioNum.Value > 0 && GananciaNum.Value > 0 && GananciaNum.Value == 0)
+            {
+
+                CostoNum.Value = BLL.ArticuloBLL.CalcularCosto(ganancia, precio);
+            }
+        }
+
+        private void GananciaNum_ValueChanged(object sender, EventArgs e)
+        {
+            decimal costo = Convert.ToInt32(CostoNum.Value);
+            decimal precio = Convert.ToInt32(PrecioNum.Value);
+            decimal ganancia = Convert.ToDecimal(GananciaNum.Value);
+
+
+            if (CostoNum.Value > 0 && GananciaNum.Value > 0 && PrecioNum.Value == 0)
+            {
+
+                PrecioNum.Value = BLL.ArticuloBLL.CalcularPrecio(costo, ganancia);
+            }
+            else
+            if (PrecioNum.Value > 0 && GananciaNum.Value > 0 && CostoNum.Value == 0)
+            {
+
+                CostoNum.Value = BLL.ArticuloBLL.CalcularCosto(ganancia, precio);
+            }
+
         }
     }
     }
