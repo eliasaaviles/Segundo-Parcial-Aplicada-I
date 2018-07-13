@@ -16,9 +16,9 @@ namespace SegundoParcial1.Entidades
         public int TallerId { get; set; }
         public int ArticulosId { get; set; }
         public string Articulo { get; set; }
-        public int Cantidad { get; set; }
-        public int Precio { get; set; }
-        public int Importe { get; set; }
+        public decimal Cantidad { get; set; }
+        public decimal Precio { get; set; }
+        public decimal Importe { get; set; }
 
         [ForeignKey("ArticulosId")]
         public virtual Articulo articulo { get; set; }
@@ -29,7 +29,7 @@ namespace SegundoParcial1.Entidades
             MantenimientoId = 0;
         }
 
-        public MantenimientoDetalle(int id, int mantenimientoId, int tallerId, int articulosId, string articulo, int cantidad, int precio, int importe)
+        public MantenimientoDetalle(int id, int mantenimientoId, int tallerId, int articulosId, string articulo, decimal cantidad, decimal precio, decimal importe)
         {
             Id = id;
             MantenimientoId = mantenimientoId;
@@ -41,7 +41,7 @@ namespace SegundoParcial1.Entidades
             Importe = importe;
         }
         
-        public MantenimientoDetalle(int mantenimientoId, int articulosId, string articulo, int cantidad, int precio, int importe)
+        public MantenimientoDetalle(int mantenimientoId, int articulosId, string articulo, decimal cantidad, decimal precio, decimal importe)
         {
 
             MantenimientoId = mantenimientoId;

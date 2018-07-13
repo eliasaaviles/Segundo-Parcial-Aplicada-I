@@ -58,6 +58,7 @@
             this.EliminarBoton = new System.Windows.Forms.Button();
             this.BuscarBoton = new System.Windows.Forms.Button();
             this.CantidadNum = new System.Windows.Forms.NumericUpDown();
+            this.RemoverBoton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.IDnumericUpDown1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.MantenimientoData)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.CantidadNum)).BeginInit();
@@ -189,6 +190,7 @@
             // 
             this.PrecioBox.Location = new System.Drawing.Point(215, 164);
             this.PrecioBox.Name = "PrecioBox";
+            this.PrecioBox.ReadOnly = true;
             this.PrecioBox.Size = new System.Drawing.Size(91, 20);
             this.PrecioBox.TabIndex = 15;
             // 
@@ -215,8 +217,9 @@
             // 
             this.ImporteBox.Location = new System.Drawing.Point(315, 164);
             this.ImporteBox.Name = "ImporteBox";
+            this.ImporteBox.ReadOnly = true;
             this.ImporteBox.Size = new System.Drawing.Size(87, 20);
-            this.ImporteBox.TabIndex = 18;
+            this.ImporteBox.TabIndex = 15;
             this.ImporteBox.TextChanged += new System.EventHandler(this.ImporteBox_TextChanged);
             // 
             // MantenimientoData
@@ -277,7 +280,7 @@
             // 
             // NuevoBoton
             // 
-            this.NuevoBoton.Location = new System.Drawing.Point(19, 343);
+            this.NuevoBoton.Location = new System.Drawing.Point(19, 358);
             this.NuevoBoton.Name = "NuevoBoton";
             this.NuevoBoton.Size = new System.Drawing.Size(75, 23);
             this.NuevoBoton.TabIndex = 26;
@@ -287,7 +290,7 @@
             // 
             // GuardarBoton
             // 
-            this.GuardarBoton.Location = new System.Drawing.Point(114, 343);
+            this.GuardarBoton.Location = new System.Drawing.Point(114, 358);
             this.GuardarBoton.Name = "GuardarBoton";
             this.GuardarBoton.Size = new System.Drawing.Size(75, 23);
             this.GuardarBoton.TabIndex = 27;
@@ -297,7 +300,7 @@
             // 
             // EliminarBoton
             // 
-            this.EliminarBoton.Location = new System.Drawing.Point(215, 343);
+            this.EliminarBoton.Location = new System.Drawing.Point(207, 358);
             this.EliminarBoton.Name = "EliminarBoton";
             this.EliminarBoton.Size = new System.Drawing.Size(75, 23);
             this.EliminarBoton.TabIndex = 28;
@@ -317,17 +320,39 @@
             // 
             // CantidadNum
             // 
+            this.CantidadNum.Hexadecimal = true;
             this.CantidadNum.Location = new System.Drawing.Point(140, 163);
+            this.CantidadNum.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             this.CantidadNum.Name = "CantidadNum";
             this.CantidadNum.Size = new System.Drawing.Size(69, 20);
             this.CantidadNum.TabIndex = 30;
+            this.CantidadNum.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             this.CantidadNum.ValueChanged += new System.EventHandler(this.CantidadNum_ValueChanged);
+            // 
+            // RemoverBoton
+            // 
+            this.RemoverBoton.Location = new System.Drawing.Point(12, 308);
+            this.RemoverBoton.Name = "RemoverBoton";
+            this.RemoverBoton.Size = new System.Drawing.Size(63, 23);
+            this.RemoverBoton.TabIndex = 31;
+            this.RemoverBoton.Text = "Remover";
+            this.RemoverBoton.UseVisualStyleBackColor = true;
+            this.RemoverBoton.Click += new System.EventHandler(this.RemoverBoton_Click);
             // 
             // RegistroMantenimiento
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(471, 393);
+            this.Controls.Add(this.RemoverBoton);
             this.Controls.Add(this.CantidadNum);
             this.Controls.Add(this.BuscarBoton);
             this.Controls.Add(this.EliminarBoton);
@@ -401,5 +426,6 @@
         private System.Windows.Forms.Button EliminarBoton;
         private System.Windows.Forms.Button BuscarBoton;
         private System.Windows.Forms.NumericUpDown CantidadNum;
+        private System.Windows.Forms.Button RemoverBoton;
     }
 }

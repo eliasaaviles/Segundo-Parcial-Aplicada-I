@@ -12,7 +12,7 @@ namespace SegundoParcial1.Entidades
 
         public int VehiculoID { get; set; }
         public string Descripcion { get; set; }
-        public int MantenimientoTotal { get; set; }
+        public decimal MantenimientoTotal { get; set; }
 
         public Vehiculo()
         { }

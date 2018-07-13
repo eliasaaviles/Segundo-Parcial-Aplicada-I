@@ -15,9 +15,8 @@ namespace SegundoParcial1.UI
     public partial class RegistroMantenimiento : Form
     {
         decimal itbis = 0;
-        decimal importe = 0;
         decimal Total = 0;
-        decimal subtotal = 0;
+
 
         public RegistroMantenimiento()
         {
@@ -29,7 +28,7 @@ namespace SegundoParcial1.UI
             IDnumericUpDown1.Value = 0;
             FechadateTimePicker1.Value = DateTime.Now;
             ProxFechadateTimePicker1.Value = DateTime.Now;
-            CantidadNum.Value=0;
+            CantidadNum.Value = 1;
             TotalBox.Clear();
 
             ImporteBox.Clear();
@@ -39,11 +38,18 @@ namespace SegundoParcial1.UI
             MantenimientoData.DataSource = null;
 
             itbis = 0;
-            importe = 0;
-            Total = 0;
-            subtotal = 0;
 
-            
+            Total = 0;
+
+
+
+        }
+        private decimal ToDecimal(object valor)
+        {
+            decimal retorno = 1;
+            decimal.TryParse(valor.ToString(), out retorno);
+            return retorno;
+
         }
         private int ToInt(object valor)
         {
@@ -53,8 +59,8 @@ namespace SegundoParcial1.UI
 
         }
 
-    
-        
+
+
         private Mantenimiento LlenaClase()
         {
             Mantenimiento mantenimiento = new Mantenimiento();
@@ -63,26 +69,20 @@ namespace SegundoParcial1.UI
             mantenimiento.VehiculoId = Convert.ToInt32(VehiculocomboBox.SelectedValue);
             mantenimiento.Fecha = FechadateTimePicker1.Value;
             mantenimiento.ProxFecha = ProxFechadateTimePicker1.Value;
-            mantenimiento.Subtotal = Convert.ToDecimal(SubBox.Text);
-            mantenimiento.itbis = Convert.ToDecimal(ItbisBox.Text);
-            mantenimiento.Total = Convert.ToDecimal(TotalBox.Text);
 
-            MantenimientoData.Columns["MantenimientoId"].Visible = false;
-            MantenimientoData.Columns["Id"].Visible = false;
-            MantenimientoData.Columns["MantenimientoId"].Visible = false;
-            MantenimientoData.Columns["TallerId"].Visible = false;
-            MantenimientoData.Columns["ArticulosId"].Visible = false;
-            MantenimientoData.Columns["articulo"].Visible = false;
 
 
             foreach (DataGridViewRow item in MantenimientoData.Rows)
             {
 
                 mantenimiento.AgregarDetalle(ToInt(item.Cells["id"].Value),
-                     mantenimiento.MantenimientoId, ToInt(item.Cells["tallerId"].Value),
-                     ToInt(item.Cells["articulosId"].Value), Convert.ToString(item.Cells["articulo"].Value),
-                       ToInt(item.Cells["cantidad"].Value), ToInt(item.Cells["precio"].Value),
-                    ToInt(item.Cells["importe"].Value));
+                     mantenimiento.MantenimientoId,
+                      ToInt(item.Cells["tallerId"].Value),
+                      ToInt(item.Cells["articulosId"].Value),
+                     Convert.ToString(item.Cells["articulo"].Value),
+                       ToDecimal(item.Cells["cantidad"].Value),
+                       ToDecimal(item.Cells["precio"].Value),
+                    ToDecimal(item.Cells["importe"].Value));
             }
             return mantenimiento;
         }
@@ -92,27 +92,17 @@ namespace SegundoParcial1.UI
             IDnumericUpDown1.Value = mantenimiento.MantenimientoId;
             FechadateTimePicker1.Value = mantenimiento.Fecha;
             ProxFechadateTimePicker1.Value = mantenimiento.ProxFecha;
-            SubBox.Text = mantenimiento.Subtotal.ToString();
-            ItbisBox.Text = mantenimiento.itbis.ToString();
-            TotalBox.Text = mantenimiento.Total.ToString();
-
-            foreach (var item in mantenimiento.Detalle)
-            {
-                subtotal += item.Importe;
-
-            }
-            SubBox.Text = subtotal.ToString();
 
 
 
             MantenimientoData.DataSource = mantenimiento.Detalle;
 
-            
+
             MantenimientoData.Columns["Id"].Visible = false;
             MantenimientoData.Columns["MantenimientoId"].Visible = false;
             MantenimientoData.Columns["TallerId"].Visible = false;
             MantenimientoData.Columns["ArticulosId"].Visible = false;
-            MantenimientoData.Columns["RegistrodeArticulos"].Visible = false;
+            MantenimientoData.Columns["Articulo"].Visible = false;
 
 
 
@@ -152,17 +142,17 @@ namespace SegundoParcial1.UI
 
         private void BuscarBoton_Click(object sender, EventArgs e)
         {
-           int id = Convert.ToInt32(IDnumericUpDown1.Value);
-            
+            int id = Convert.ToInt32(IDnumericUpDown1.Value);
+
             Mantenimiento mantenimiento = BLL.MantenimientoDetalleBLL.Buscar(id);
-            
+
 
             if (mantenimiento != null)
             {
                 LlenarCampos(mantenimiento);
 
             }
-           else
+            else
                 MessageBox.Show("No se encontro!", "Fallo",
                    MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
@@ -171,7 +161,7 @@ namespace SegundoParcial1.UI
         {
             foreach (var item in BLL.ArticuloBLL.GetList(x => x.Descripcion == ArticuloCombo.Text))
             {
-                PrecioBox.Text = item.Precip.ToString();
+                PrecioBox.Text = item.Precio.ToString();
 
             }
         }
@@ -179,15 +169,15 @@ namespace SegundoParcial1.UI
         private void AnadirBoton_Click(object sender, EventArgs e)
         {
             List<MantenimientoDetalle> detalle = new List<MantenimientoDetalle>();
-            Mantenimiento mantenimiento = new Mantenimiento();
+
 
 
             if (MantenimientoData.DataSource != null)
             {
-                mantenimiento.Detalle = (List<MantenimientoDetalle>)MantenimientoData.DataSource;
+                detalle = (List<MantenimientoDetalle>)MantenimientoData.DataSource;
             }
 
-            
+
             foreach (var item in BLL.ArticuloBLL.GetList(x => x.Inventario < CantidadNum.Value))
             {
 
@@ -201,23 +191,23 @@ namespace SegundoParcial1.UI
             }
             else
             {
-                mantenimiento.Detalle.Add(
+                detalle.Add(
                     new MantenimientoDetalle(id: 0,
                     mantenimientoId: (int)Convert.ToInt32(IDnumericUpDown1.Value),
                     tallerId: (int)TallerBox.SelectedValue,
                        articulosId: (int)ArticuloCombo.SelectedValue,
                             articulo: (string)BLL.ArticuloBLL.RetornarDescripcion(ArticuloCombo.Text),
-                        cantidad: Convert.ToInt32(CantidadNum.Value),
-                        precio: Convert.ToInt32(PrecioBox.Text),
-                        importe: Convert.ToInt32(ImporteBox.Text)));
+                        cantidad: Convert.ToDecimal(CantidadNum.Value),
+                        precio: Convert.ToDecimal(PrecioBox.Text),
+                        importe: Convert.ToDecimal(ImporteBox.Text)));
 
 
                 MantenimientoData.DataSource = null;
-                MantenimientoData.DataSource = mantenimiento.Detalle;
+                MantenimientoData.DataSource = detalle;
 
-               
+
                 MantenimientoData.Columns["Id"].Visible = false;
-               MantenimientoData.Columns["MantenimientoId"].Visible = false;
+                MantenimientoData.Columns["MantenimientoId"].Visible = false;
                 MantenimientoData.Columns["TallerId"].Visible = false;
                 MantenimientoData.Columns["ArticulosId"].Visible = false;
                 MantenimientoData.Columns["articulo"].Visible = false;
@@ -229,20 +219,16 @@ namespace SegundoParcial1.UI
             }
 
 
-            importe += BLL.MantenimientoDetalleBLL.CalcularImporte(Convert.ToDecimal(PrecioBox.Text), Convert.ToInt32(CantidadNum.Value));
+            decimal subtotal = 0;
 
-            if (IDnumericUpDown1.Value != 0)
+            foreach (var item in detalle)
             {
+                subtotal += item.Importe;
 
-                subtotal += importe;
-                SubBox.Text = subtotal.ToString();
             }
-            else
-            {
 
-                subtotal = importe;
-                SubBox.Text = subtotal.ToString();
-            }
+
+            SubBox.Text = subtotal.ToString();
 
             itbis = BLL.MantenimientoDetalleBLL.CalcularItbis(Convert.ToDecimal(SubBox.Text));
 
@@ -275,10 +261,6 @@ namespace SegundoParcial1.UI
 
 
 
-            MessageBox.Show("Favor Llenar Casilla!", "Exito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-
-
             int id = Convert.ToInt32(IDnumericUpDown1.Value);
             if (BLL.MantenimientoDetalleBLL.Eliminar(id))
             {
@@ -298,45 +280,81 @@ namespace SegundoParcial1.UI
 
         private void CantidadNum_ValueChanged(object sender, EventArgs e)
         {
-            ImporteBox.Text = BLL.MantenimientoDetalleBLL.CalcularImporte(Convert.ToInt32(PrecioBox.Text), Convert.ToInt32(CantidadNum.Value)).ToString();
+            ImporteBox.Text = BLL.MantenimientoDetalleBLL.CalcularImporte(Convert.ToDecimal(PrecioBox.Text), Convert.ToInt32(CantidadNum.Value)).ToString(); ;
         }
 
         private void GuardarBoton_Click(object sender, EventArgs e)
         {
-                 
-          
-                  Mantenimiento mantenimiento = LlenaClase();
-                bool Paso = false;
-                           
-                if (IDnumericUpDown1.Value == 0)
-                {
-                    Paso = BLL.MantenimientoDetalleBLL.Guardar(mantenimiento);
-                    
-                }
-                else
-                {
 
-                    Paso = BLL.MantenimientoDetalleBLL.Modificar(mantenimiento);
-                    
-                }
-                               
-                if (Paso)
-                {
-                    Vaciar();
-                    MessageBox.Show("Guardado!!", "Exito",
-                        MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-                else
-                    MessageBox.Show("No se pudo guardar!!", "Fallo",
-                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+            Mantenimiento mantenimiento = LlenaClase();
+            bool Paso = false;
+
+            if (IDnumericUpDown1.Value == 0)
+            {
+                Paso = BLL.MantenimientoDetalleBLL.Guardar(mantenimiento);
+
             }
+            else
+            {
+
+                Paso = BLL.MantenimientoDetalleBLL.Modificar(mantenimiento);
+
+            }
+
+            if (Paso)
+            {
+                Vaciar();
+                MessageBox.Show("Guardado!!", "Exito",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else
+                MessageBox.Show("No se pudo guardar!!", "Fallo",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
 
         private void ImporteBox_TextChanged(object sender, EventArgs e)
         {
 
         }
+
+        private void RemoverBoton_Click(object sender, EventArgs e)
+        {
+            Mantenimiento mantenimiento = new Mantenimiento();
+            if (MantenimientoData.Rows.Count > 0 && MantenimientoData.CurrentRow != null)
+            {
+
+                List<MantenimientoDetalle> detalle = (List<MantenimientoDetalle>)MantenimientoData.DataSource;
+
+
+                detalle.RemoveAt(MantenimientoData.CurrentRow.Index);
+
+                decimal subtotal = 0;
+
+                foreach (var item in detalle)
+                {
+                    subtotal -= item.Importe;
+                }
+
+                subtotal *= (-1);
+                SubBox.Text = subtotal.ToString();
+
+                itbis = BLL.MantenimientoDetalleBLL.CalcularItbis(Convert.ToDecimal(SubBox.Text));
+                ItbisBox.Text = itbis.ToString();
+
+                Total = BLL.MantenimientoDetalleBLL.Total(Convert.ToDecimal(SubBox.Text), Convert.ToDecimal(ItbisBox.Text));
+
+                TotalBox.Text = Total.ToString();
+
+
+
+                // Cargar el detalle al Grid
+                MantenimientoData.DataSource = null;
+                MantenimientoData.DataSource = detalle;
+            }
+        }
     }
-    }
+}
 
 
 

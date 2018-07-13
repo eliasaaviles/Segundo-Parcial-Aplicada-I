@@ -13,12 +13,20 @@ namespace SegundoParcial1.Entidades
         public int ArticuloID { get; set; }
         public string Descripcion { get; set; }
         public decimal Costo { get; set; }
-        public decimal Ganancia { get; set; }
-        public decimal Precip { get; set; }
+        public int Ganancia { get; set; }
+        public decimal Precio { get; set; }
         public int Inventario { get; set; }
 
         public Articulo()
-        { }
+        {
+            ArticuloID = 0;
+            Descripcion = string.Empty;
+            Costo = 0;
+            Ganancia = 0;
+            Precio = 0;
+            Inventario = 0;
+
+        }
 
         public override string ToString()
         {

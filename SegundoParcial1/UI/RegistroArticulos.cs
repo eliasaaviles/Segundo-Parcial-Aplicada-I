@@ -42,7 +42,7 @@ namespace SegundoParcial1.UI
             articulo.Descripcion = DescripcionBox.Text;
             articulo.Costo = Convert.ToInt32(CostoNum.Value);
             articulo.Ganancia = Convert.ToInt32(GananciaNum.Value);
-            articulo.Precip = Convert.ToInt32(PrecioNum.Value);
+            articulo.Precio = Convert.ToInt32(PrecioNum.Value);
             articulo.Inventario = 0;
             return articulo;
         }
@@ -94,7 +94,7 @@ namespace SegundoParcial1.UI
                 DescripcionBox.Text = articulo.Descripcion;
                 CostoNum.Value = articulo.Costo;
                 GananciaNum.Value = articulo.Ganancia;
-                PrecioNum.Value = articulo.Precip;
+                PrecioNum.Value = articulo.Precio;
                 InventarioBox.Text = articulo.Inventario.ToString();
 
 

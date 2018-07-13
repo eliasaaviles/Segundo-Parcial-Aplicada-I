@@ -73,35 +73,43 @@ namespace SegundoParcial1.BLL
         {
 
             bool paso = false;
-
             Contexto contexto = new Contexto();
 
             try
             {
+                Mantenimiento mantenimiento = contexto.mantenimiento.Find(id);
 
-                MantenimientoDetalle mantenimiento = contexto.mantenimientos.Find(id);
 
-          
+                if (mantenimiento != null)
+                {
+                    foreach (var item in mantenimiento.Detalle)
+                    {
+                        contexto.mantenimiento.Find(item.ArticulosId).Cantidad += item.Cantidad;
 
-                contexto.mantenimientos.Remove(mantenimiento);
+                    }
+
+                    contexto.vehiculos.Find(mantenimiento.VehiculoId).MantenimientoTotal -= mantenimiento.Total;
+
+                    mantenimiento.Detalle.Count();
+                    contexto.mantenimiento.Remove(mantenimiento);
+
+
+
+                }
+
+
+
+
                 if (contexto.SaveChanges() > 0)
                 {
 
                     paso = true;
-
                 }
-
                 contexto.Dispose();
 
-            }
-
-            catch (Exception)
-            {
-
-                throw;
 
             }
-
+            catch (Exception) { throw; }
             return paso;
 
         }
@@ -116,19 +124,21 @@ namespace SegundoParcial1.BLL
             try
             {
                 mantenimiento = contexto.mantenimiento.Find(id);
+                if (mantenimiento != null)
+                {
+                    mantenimiento.Detalle.Count();
+
+                    foreach (var item in mantenimiento.Detalle)
+                    {
+
+                        string s = item.articulo.Descripcion;
+                    }
+
+                }
                 contexto.Dispose();
-
             }
-
-            catch (Exception)
-            {
-
-                throw;
-
-            }
-
+            catch (Exception) { throw; }
             return mantenimiento;
-
         }
 
 
