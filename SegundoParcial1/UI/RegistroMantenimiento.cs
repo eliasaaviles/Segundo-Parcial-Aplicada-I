@@ -345,13 +345,21 @@ namespace SegundoParcial1.UI
                 Total = BLL.MantenimientoDetalleBLL.Total(Convert.ToDecimal(SubBox.Text), Convert.ToDecimal(ItbisBox.Text));
 
                 TotalBox.Text = Total.ToString();
-
-
-
-                // Cargar el detalle al Grid
+                                
                 MantenimientoData.DataSource = null;
                 MantenimientoData.DataSource = detalle;
+
+                MantenimientoData.Columns["Id"].Visible = false;
+                MantenimientoData.Columns["MantenimientoId"].Visible = false;
+                MantenimientoData.Columns["TallerId"].Visible = false;
+                MantenimientoData.Columns["ArticulosId"].Visible = false;
+                MantenimientoData.Columns["articulo"].Visible = false;
             }
+        }
+
+        private void MantenimientoData_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
         }
     }
 }

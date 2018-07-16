@@ -229,6 +229,7 @@
             this.MantenimientoData.Name = "MantenimientoData";
             this.MantenimientoData.Size = new System.Drawing.Size(446, 115);
             this.MantenimientoData.TabIndex = 19;
+            this.MantenimientoData.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.MantenimientoData_CellContentClick);
             // 
             // label10
             // 

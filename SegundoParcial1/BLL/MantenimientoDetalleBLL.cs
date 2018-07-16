@@ -56,23 +56,19 @@ namespace SegundoParcial1.BLL
 
                 if (Mantenimiento != null)
                 {
-
-
+                    
                     foreach (var item in Mantenimiento.Detalle)
                     {
 
                         contexto.articulos.Find(item.ArticulosId).Inventario += item.Cantidad;
-
-
-
-                        if (!mantenimiento.Detalle.ToList().Exists(v => v.Id == item.Id))
+                        
+                        if (!mantenimiento.Detalle.ToList().Exists(si => si.Id == item.Id))
                         {
-                            
-
                             item.Articulo = null;
                             contexto.Entry(item).State = EntityState.Deleted;
                         }
                         
+
                     }
 
 
@@ -105,7 +101,8 @@ namespace SegundoParcial1.BLL
                 }
                 contexto.Dispose();
             }
-            catch (Exception) { throw; }
+            catch (Exception)
+            { throw; }
             return paso;
         }
 
@@ -128,7 +125,7 @@ namespace SegundoParcial1.BLL
                 {
                     foreach (var item in mantenimiento.Detalle)
                     {
-                        contexto.mantenimiento.Find(item.ArticulosId).Cantidad += item.Cantidad;
+                        contexto.articulos.Find(item.ArticulosId).Inventario += item.Cantidad;
 
                     }
 
@@ -136,13 +133,7 @@ namespace SegundoParcial1.BLL
 
                     mantenimiento.Detalle.Count();
                     contexto.mantenimiento.Remove(mantenimiento);
-
-
-
                 }
-
-
-
 
                 if (contexto.SaveChanges() > 0)
                 {
