@@ -15,7 +15,7 @@ namespace SegundoParcial1.Entidades
         public decimal Costo { get; set; }
         public int Ganancia { get; set; }
         public decimal Precio { get; set; }
-        public int Inventario { get; set; }
+        public decimal Inventario { get; set; }
 
         public Articulo()
         {

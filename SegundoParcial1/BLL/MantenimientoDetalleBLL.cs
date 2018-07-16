@@ -15,10 +15,20 @@ namespace SegundoParcial1.BLL
         {
             bool paso = false;
             Contexto contexto = new Contexto();
+            Vehiculo vehiculos = new Vehiculo();
             try
             {
                 if (contexto.mantenimiento.Add(mantenimiento) != null)
                 {
+
+                    foreach (var item in mantenimiento.Detalle)
+                    {
+                        contexto.articulos.Find(item.ArticulosId).Inventario -= item.Cantidad;
+                    }
+
+
+                    contexto.vehiculos.Find(mantenimiento.VehiculoId).MantenimientoTotal += mantenimiento.Total;
+
                     contexto.SaveChanges();
                     paso = true;
                 }
@@ -41,31 +51,65 @@ namespace SegundoParcial1.BLL
 
             try
             {
-                contexto.Entry(mantenimiento).State = EntityState.Modified;
+                var Mantenimiento = BLL.MantenimientoDetalleBLL.Buscar(mantenimiento.MantenimientoId);
+
+
+                if (Mantenimiento != null)
+                {
+
+
+                    foreach (var item in Mantenimiento.Detalle)
+                    {
+
+                        contexto.articulos.Find(item.ArticulosId).Inventario += item.Cantidad;
+
+
+
+                        if (!mantenimiento.Detalle.ToList().Exists(v => v.Id == item.Id))
+                        {
+                            
+
+                            item.Articulo = null;
+                            contexto.Entry(item).State = EntityState.Deleted;
+                        }
+                        
+                    }
+
+
+                    foreach (var item in mantenimiento.Detalle)
+                    {
+                        contexto.articulos.Find(item.ArticulosId).Inventario -= item.Cantidad;
+                        
+                        var estado = item.Id > 0 ? EntityState.Modified : EntityState.Added;
+                        contexto.Entry(item).State = estado;
+                    }
+                    
+                    Mantenimiento EntradaAnterior = BLL.MantenimientoDetalleBLL.Buscar(mantenimiento.MantenimientoId);
+                                       
+                    decimal diferencia;
+
+                    diferencia = mantenimiento.Total - EntradaAnterior.Total;
+
+                    Vehiculo vehiculos = BLL.VehiculoBLL.Buscar(mantenimiento.VehiculoId);
+                    vehiculos.MantenimientoTotal += diferencia;
+                    BLL.VehiculoBLL.Modificar(vehiculos);
+                    
+                    contexto.Entry(mantenimiento).State = EntityState.Modified;
+                }
+
+
+
                 if (contexto.SaveChanges() > 0)
                 {
                     paso = true;
-
                 }
-
                 contexto.Dispose();
-
             }
-
-            catch (Exception)
-            {
-
-                throw;
-
-            }
-
+            catch (Exception) { throw; }
             return paso;
-
-
-
         }
 
-    
+
 
 
 
